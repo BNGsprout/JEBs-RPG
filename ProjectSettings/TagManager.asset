@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 3
+  tags:
+  - Enemy
+  - NPC
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Player
+  - Barrier
+  - Ground
+  - Item
+  - Enemy
+  - NPC
+  - Overlay
+  - Overlay 2
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Overlay 2
+    uniqueID: 1053966699
+    locked: 0
+  - name: Overlay
+    uniqueID: 1102656729
+    locked: 0
+  - name: Player
+    uniqueID: 3774280989
+    locked: 0
+  - name: Enemies
+    uniqueID: 4208026005
+    locked: 0
+  - name: NPCs
+    uniqueID: 900342725
+    locked: 0
+  - name: Items
+    uniqueID: 4095290363
+    locked: 0
+  - name: Barrier
+    uniqueID: 413097383
+    locked: 0
+  - name: Ground
+    uniqueID: 1140069689
+    locked: 0
+  m_RenderingLayers:
+  - Default
+  m_MigratedRenderPipelines: []
