@@ -696,11 +696,11 @@ PlayerSettings:
   activeInputHandler: 1
   windowsGamepadBackendHint: 0
   enableDirectStorage: 0
-  cloudProjectId: 
+  cloudProjectId: cb820625-1576-48a4-88a9-2cf793302878
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Galazio 2026-07-10_20-54-45
-  organizationId: 
+  projectName: JEB's RPG
+  organizationId: bngsprout
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
