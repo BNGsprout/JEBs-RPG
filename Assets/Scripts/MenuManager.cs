@@ -7,6 +7,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] GameObject saveSelectMenu;
     [SerializeField] GameObject nameSaveMenu;
     [SerializeField] GameObject playerJoinMenu;
+    [SerializeField] GameObject characterSelectMenu;
 
     public void PlayButtonClicked()
     {
@@ -44,6 +45,12 @@ public class MenuManager : MonoBehaviour
         playerJoinMenu.SetActive(true);
     }
 
+    public void Next2Clicked()
+    {
+        playerJoinMenu.SetActive(false);
+        characterSelectMenu.SetActive(true);
+    }
+
     public void BackButton1Clicked()
     {
         saveSelectMenu.SetActive(false);
@@ -60,5 +67,11 @@ public class MenuManager : MonoBehaviour
     {
         playerJoinMenu.SetActive(false);
         nameSaveMenu.SetActive(true);
+    }
+
+    public void BackButton4Clicked()
+    {
+        characterSelectMenu.SetActive(false);
+        playerJoinMenu.SetActive(true);
     }
 }

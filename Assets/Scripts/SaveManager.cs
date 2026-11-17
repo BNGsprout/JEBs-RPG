@@ -24,9 +24,12 @@ public class PlayerData
     public string playerName;
     public string playerID;
     public PlayerClass playerClass;
+    public float maxHealth;
     public float health;
+    public float maxMana;
     public float mana;
-    public int hunger;
+    public float maxHunger;
+    public float hunger;
     public int reliance;
     public float relianceBar;
     public float speed;
@@ -70,6 +73,7 @@ public class SaveManager : MonoBehaviour
         }
 
         confirmButton.onClick.AddListener(OnConfirmClicked);
+        confirmClassButton.onClick.AddListener(OnConfirmClassClicked);
 
         for (int i = 0; i < classButtons.Length; i++)
         {
@@ -213,9 +217,12 @@ public class SaveManager : MonoBehaviour
                 playerName = name,
                 playerID = System.Guid.NewGuid().ToString(),
                 playerClass = cls,
+                maxHealth = 100f,
                 health = 100f,
+                maxMana = 50f,
                 mana = 50f,
-                hunger = 100,
+                maxHunger = 100f,
+                hunger = 100f,
                 reliance = 3,
                 relianceBar = 0f,
                 speed = 9f,
