@@ -51,6 +51,11 @@ public class MenuManager : MonoBehaviour
         characterSelectMenu.SetActive(true);
     }
 
+    public void Next3Clicked()
+    {
+        SceneManager.LoadScene(1);
+    }
+
     public void BackButton1Clicked()
     {
         saveSelectMenu.SetActive(false);

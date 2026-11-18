@@ -7,8 +7,8 @@ using System.Collections.Generic;
 public enum PlayerClass
 {
     Knight,
-    Mage,
-    Rogue
+    Rogue,
+    Wizard
 }
 
 [System.Serializable]
@@ -59,9 +59,21 @@ public class SaveManager : MonoBehaviour
     private int selectedSlot = -1;
     private string pendingName = "";
     private PlayerClass pendingClass;
+    public static PlayerData CurrentPlayer;
+    public static WorldData CurrentWorld;
+    public static SaveManager Instance;
 
     void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
         savesRoot = Path.Combine(Application.persistentDataPath, "Saves");
         if (!Directory.Exists(savesRoot))
             Directory.CreateDirectory(savesRoot);
@@ -169,7 +181,9 @@ public class SaveManager : MonoBehaviour
         {
             var (world, player) = Load(slot);
             Debug.Log($"Loading {world.worldName} ({player.playerName})");
-            // ... load scene, apply data, etc.
+            CurrentWorld = world;
+            CurrentPlayer = player;
+            // ... load scene
         }
         else
         {
@@ -203,6 +217,8 @@ public class SaveManager : MonoBehaviour
     var player = CreatePlayerData(pendingName, pendingClass);
 
     Save(selectedSlot, world, player);
+    CurrentWorld = world;
+    CurrentPlayer = player;
     // your menu manager handles the rest
 }
 
@@ -225,7 +241,7 @@ public class SaveManager : MonoBehaviour
                 hunger = 100f,
                 reliance = 3,
                 relianceBar = 0f,
-                speed = 9f,
+                speed = 4f,
                 strength = 3,
                 defence = 3f,
                 experience = 0f,
@@ -236,47 +252,53 @@ public class SaveManager : MonoBehaviour
                 electricityResistance = 0f,
                 poisonResistance = 1f
             },
-            PlayerClass.Mage => new PlayerData
-            {
-                playerName = name,
-                playerID = System.Guid.NewGuid().ToString(),
-                playerClass = cls,
-                health = 100f,
-                mana = 150f,
-                hunger = 100,
-                reliance = 50,
-                relianceBar = 100f,
-                speed = 7f,
-                strength = 5,
-                defence = 8f,
-                experience = 0f,
-                level = 1,
-                intelligence = 15,
-                fireResistance = 0.15f,
-                iceResistance = 0.1f,
-                electricityResistance = 0.05f,
-                poisonResistance = 0f
-            },
             PlayerClass.Rogue => new PlayerData
             {
                 playerName = name,
                 playerID = System.Guid.NewGuid().ToString(),
                 playerClass = cls,
-                health = 150f,
-                mana = 60f,
-                hunger = 100,
+                maxHealth = 100f,
+                health = 100f,
+                maxMana = 100f,
+                mana = 100f,
+                maxHunger = 100f,
+                hunger = 100f,
                 reliance = 50,
-                relianceBar = 100f,
-                speed = 12f,
+                relianceBar = 0f,
+                speed = 7f,
                 strength = 10,
                 defence = 12f,
                 experience = 0f,
-                level = 1,
+                level = 0,
                 intelligence = 8,
                 fireResistance = 0f,
                 iceResistance = 0f,
                 electricityResistance = 0.1f,
                 poisonResistance = 0.15f
+            },
+            PlayerClass.Wizard => new PlayerData
+            {
+                playerName = name,
+                playerID = System.Guid.NewGuid().ToString(),
+                playerClass = cls,
+                maxHealth = 90f,
+                health = 90f,
+                maxMana = 115f,
+                mana = 115f,
+                maxHunger = 100f,
+                hunger = 100f,
+                reliance = 1,
+                relianceBar = 0f,
+                speed = 5f,
+                strength = 1,
+                defence = 1f,
+                experience = 0f,
+                level = 0,
+                intelligence = 7,
+                fireResistance = 1f,
+                iceResistance = 1f,
+                electricityResistance = 1f,
+                poisonResistance = 0f
             },
             _ => throw new System.ArgumentException($"Unknown class: {cls}")
         };

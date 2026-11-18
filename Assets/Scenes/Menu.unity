@@ -1014,6 +1014,8 @@ MonoBehaviour:
   confirmButton: {fileID: 1312197853}
   classButtons:
   - {fileID: 663327315}
+  - {fileID: 393622707}
+  - {fileID: 1226303675}
   confirmClassButton: {fileID: 773621609}
 --- !u!1 &266524629
 GameObject:
@@ -3542,7 +3544,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 773621610}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 625589560}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: Next3Clicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &773621610
 MonoBehaviour:
   m_ObjectHideFlags: 0

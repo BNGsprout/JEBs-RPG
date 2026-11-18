@@ -10,9 +10,25 @@ public class PlayerStats : MonoBehaviour
     public event Action OnPlayerDeath;
 
     [Header("Base Stats")]
-    public float maxHealth = 100f;
-    public float maxHunger = 100f;
-    public float maxMana = 100f;
+    public float maxHealth;
+    public float health;
+    public float maxHunger;
+    public float hunger;
+    public float maxMana;
+    public float mana;
+    public int reliance;
+    public float relianceBar;
+    public float speed;
+    public int strength;
+    public float defence;
+    public float experience;
+    public int level;
+    public int intelligence;
+    public float fireResistance;
+    public float iceResistance;
+    public float electricityResistance;
+    public float poisonResistance;
+
 
     [Header("Current Stats")]
     [SerializeField] public float currentHealth;
@@ -28,10 +44,32 @@ public class PlayerStats : MonoBehaviour
 
         void Awake() // Change from Start() to Awake()
     {
+        var data = SaveManager.CurrentPlayer;
+        if (data == null) return;
+
+        maxHealth = data.maxHealth;
+        health = data.health;
+        maxMana = data.maxMana;
+        mana = data.mana;
+        hunger = data.hunger;
+        maxHunger = data.maxHunger;
+        reliance = data.reliance;
+        relianceBar = data.relianceBar;
+        speed = data.speed;
+        strength = data.strength;
+        defence = data.defence;
+        experience = data.experience;
+        level = data.level;
+        intelligence = data.intelligence;
+        fireResistance = data.fireResistance;
+        iceResistance = data.iceResistance;
+        electricityResistance = data.electricityResistance;
+        poisonResistance = data.poisonResistance;
+
         // Initialize current stats to max immediately
-        currentHealth = maxHealth;
-        currentHunger = maxHunger;
-        currentMana = maxMana;
+        currentHealth = health;
+        currentHunger = hunger;
+        currentMana = mana;
         
         // Optional: Manually invoke events once so UI updates immediately on start
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
