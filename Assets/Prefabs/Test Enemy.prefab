@@ -484,6 +484,7 @@ GameObject:
   - component: {fileID: 973541567055734667}
   - component: {fileID: 5137814085677612635}
   - component: {fileID: 1360725325065386705}
+  - component: {fileID: 6705602741524583840}
   m_Layer: 10
   m_Name: Test Enemy
   m_TagString: Enemy
@@ -633,7 +634,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8251274258471393443}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 864c540e511392f968d501524e172256, type: 3}
   m_Name: 
@@ -647,3 +648,18 @@ MonoBehaviour:
   waitTime: 3
   chaseSpeed: 3.5
   patrolSpeed: 3
+--- !u!114 &6705602741524583840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8251274258471393443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d937cc4c2638b3ed1ba25e130ee174f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoamBehavior
+  roamRadius: 15
+  pauseDuration: 2
+  agentSpeed: 3
