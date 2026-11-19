@@ -13,7 +13,7 @@ public class RoamBehaviour : MonoBehaviour
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        agent.speed = agentSpeed;  // ← new
+        agent.speed = agentSpeed;  // ← new  
     }
 
     void OnEnable()
