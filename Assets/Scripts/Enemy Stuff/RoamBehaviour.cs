@@ -1,65 +1,83 @@
 using UnityEngine;
-using UnityEngine.AI;
 
 public class RoamBehaviour : MonoBehaviour
 {
-    [SerializeField] private float roamRadius = 15f;
-    [SerializeField] private float pauseDuration = 2f;
-    [SerializeField] private float agentSpeed = 3f;  // ← new
+    public float speed = 3f;
+    public float roamRadius = 5f;
+    public float waitTime = 2f;
+    public float lookAhead = 2f;        // how far ahead to cast
+    public float sideAngle = 45f;       // spread of side rays
+    public int rayCount = 5;            // more rays = smoother avoidance
+    public LayerMask obstacleMask;      // set this in the inspector
 
-    private NavMeshAgent agent;
-    private float pauseTimer;
+    Rigidbody2D rb;
+    Vector2 homePos;
+    Vector2 target;
+    float waitTimer;
 
-    void Awake()
+    void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        agent.speed = agentSpeed;  // ← new  
+        rb = GetComponent<Rigidbody2D>();
+        homePos = transform.position;
+        PickNewTarget();
     }
 
-    void OnEnable()
+    void FixedUpdate()
     {
-        agent.SetDestination(GetRandomPoint());
-    }
-
-    void Update()
-    {
-        if (agent.remainingDistance <= agent.stoppingDistance)
+        if (waitTimer > 0)
         {
-            if (pauseTimer <= 0f)
-            {
-                pauseTimer = pauseDuration;
-            }
-            else
-            {
-                pauseTimer -= Time.deltaTime;
-                if (pauseTimer <= 0f)
-                {
-                    agent.SetDestination(GetRandomPoint());
-                }
-            }
-        }
-    }
-
-    private Vector3 GetRandomPoint()
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            Vector3 randomOffset = Random.insideUnitSphere * roamRadius;
-            randomOffset.y = 0f;
-            Vector3 randomPos = transform.position + randomOffset;
-
-            NavMeshHit hit;
-            if (!NavMesh.SamplePosition(randomPos, out hit, roamRadius, NavMesh.AllAreas))
-                continue;
-
-            var path = new NavMeshPath();
-            if (NavMesh.CalculatePath(transform.position, hit.position, NavMesh.AllAreas, path))
-            {
-                if (path.status == NavMeshPathStatus.PathComplete)
-                    return hit.position;
-            }
+            waitTimer -= Time.fixedDeltaTime;
+            rb.linearVelocity = Vector2.zero;
+            return;
         }
 
-        return transform.position;
+        Vector2 dir = ((Vector2)target - rb.position).normalized;
+
+        if (Vector2.Distance(rb.position, target) < 0.2f)
+        {
+            waitTimer = waitTime;
+            PickNewTarget();
+            return;
+        }
+
+        // Obstacle avoidance
+        dir = AvoidObstacles(dir);
+
+        rb.linearVelocity = dir * speed;
+    }
+
+    Vector2 AvoidObstacles(Vector2 desiredDir)
+    {
+        Vector2 avoidForce = Vector2.zero;
+
+        for (int i = 0; i < rayCount; i++)
+        {
+            float t = (float)i / (rayCount - 1) - 0.5f; // -0.5 to 0.5
+            Vector2 rayDir = Quaternion.Euler(0, 0, t * sideAngle * 2f) * desiredDir;
+
+            RaycastHit2D hit = Physics2D.Raycast(rb.position, rayDir, lookAhead, obstacleMask);
+
+            if (hit)
+            {
+                // Closer hit = stronger avoidance
+                float weight = 1f - (hit.distance / lookAhead);
+                // Steer along the wall normal
+                avoidForce += hit.normal * weight;
+            }
+        }
+
+        if (avoidForce.sqrMagnitude > 0.01f)
+        {
+            // Blend desired direction with avoidance
+            return (desiredDir + avoidForce.normalized * 0.8f).normalized;
+        }
+
+        return desiredDir;
+    }
+
+    void PickNewTarget()
+    {
+        Vector2 offset = Random.insideUnitCircle * roamRadius;
+        target = homePos + offset;
     }
 }   
